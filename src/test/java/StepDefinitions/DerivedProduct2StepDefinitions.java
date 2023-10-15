@@ -1,11 +1,8 @@
 package StepDefinitions;
 
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pages.coreproduct.CoreProductsPage;
 import pages.derivedproducts.DerivedProductsPageTwo;
 import utils.TestContext;
 import utils.WebDriverUtils;
@@ -43,7 +40,7 @@ public class DerivedProduct2StepDefinitions {
     @And("Embed CSV file {string} as attachment to the html report")
     public void embedCSVFileAsAttachmentToTheHtmlReport(String fileName) throws IOException {
         Path path = Paths.get(System.getProperty("user.dir") + "/" + fileName);
-        TestContext.scenario.get().attach(Files.readAllBytes(path), "text/csv", "Footer Links CSV");
+        TestContext.getScenario().attach(Files.readAllBytes(path), "text/csv", "Footer Links CSV");
     }
 
 

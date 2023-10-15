@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CucumberSuite">
+    <!--    <parameter name="cucumber.features" value="src/test/java/features/DerivedProducts2.feature"/>-->
+    <parameter name="cucumber.filter.tags" value="@CPTest2"/>
+    <test name="CucumberTest" parallel="true">
+        <classes>
+            <class name="TestRunners.TestNGTestRunner"></class>
+        </classes>
+    </test>
+</suite>

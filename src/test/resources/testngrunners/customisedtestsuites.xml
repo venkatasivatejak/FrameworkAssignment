@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CucumberSuite">
+
+    <test name="CucumberTest" parallel="true">
+        <classes>
+            <class name="TestRunners.TestCP2"></class>
+            <class name="TestRunners.TestDP2"></class>
+        </classes>
+    </test>
+</suite>

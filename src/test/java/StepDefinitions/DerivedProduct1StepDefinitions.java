@@ -1,20 +1,13 @@
 package StepDefinitions;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 import pages.derivedproducts.DerivedProductsPageOne;
-import pages.derivedproducts.DerivedProductsPageTwo;
 import utils.TestContext;
-import utils.WebDriverUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 

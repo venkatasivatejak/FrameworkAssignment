@@ -1,14 +1,15 @@
 package utils;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class WebDriverUtils {
@@ -18,19 +19,41 @@ public class WebDriverUtils {
 
     }
 
-    //throws MalformedURLException
-    public static WebDriver getDriver() {
-//        if (threadLocalDriver.get() == null) {
-//            threadLocalDriver.set(new ChromeDriver());
-//        }
-        return threadLocalDriver.get();
+    public enum Browser {
+        CHROME,
+        FIREFOX,
+        EDGE;
+
+        public static Browser fromString(String browserName) {
+            for (Browser browser : Browser.values()) {
+                if (browser.name().equalsIgnoreCase(browserName)) {
+                    return browser;
+                }
+            }
+            throw new IllegalArgumentException("No browser with name " + browserName + " found");
+        }
     }
 
-    public static void quitDriver() {
-        if (threadLocalDriver.get() != null) {
-            threadLocalDriver.get().quit();
-            threadLocalDriver.remove();
+    public static void initializeDriver() {
+        if (threadLocalDriver.get() == null) {
+            Browser selectedBrowser = Browser.fromString(TestContext.getAppConfig().browser());
+            WebDriver driver = null;
+            if (selectedBrowser == Browser.CHROME) {
+                driver = new ChromeDriver();
+            } else if (selectedBrowser == Browser.FIREFOX) {
+                driver = new FirefoxDriver();
+            }
+            threadLocalDriver.set(driver);
+            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            getDriver().manage().window().maximize();
         }
+
+    }
+
+
+    //throws MalformedURLException
+    public static WebDriver getDriver() {
+        return threadLocalDriver.get();
     }
 
     public static void waitForPageLoad() {
@@ -41,11 +64,6 @@ public class WebDriverUtils {
         wait.until(jsLoad);
     }
 
-    public static void redirectToNewTab() {
-        List<String> windowHandles = new ArrayList<>(getDriver().getWindowHandles());
-        getDriver().switchTo().window(windowHandles.get(windowHandles.size() - 1));
-    }
-
     /**
      * Scroll to the bottom of the page using JavaScript
      */
@@ -54,21 +72,20 @@ public class WebDriverUtils {
         jsExecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
+    /**
+     * @param url - of web application
+     *        Opens the web application and wait for the page to fully load
+     */
     public static void openWebPage(String url) {
-       getDriver().get(url);
-       waitForPageLoad();
+        getDriver().get(url);
+        waitForPageLoad();
     }
 
-    public static void initializeDriver(){
-        if (threadLocalDriver.get() == null) {
-            threadLocalDriver.set(new ChromeDriver());
-            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-           getDriver().manage().window().maximize();
-        }
-
+    public static byte[] getFailureScreenShot() {
+        return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
-    public static void closeSession(){
+    public static void quitDriver() {
         getDriver().quit();
         threadLocalDriver.remove();
     }
