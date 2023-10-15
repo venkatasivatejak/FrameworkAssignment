@@ -22,7 +22,7 @@ Sample Test:
 To Run Web Tests:
 
         Full Regression:
-            mvn clean test -Prun-testng-xml -Dtestngxmlfile=src/test/resources/testngrunners/selectivetestrun.xml
+            mvn clean test -Prun-testng-xml -Dtestngxmlfile=src/test/resources/testngrunners/fullregression.xml
         
         Selective Tests:
             Eg: To run the sample test @CPTest2 above
