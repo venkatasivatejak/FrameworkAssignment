@@ -1,12 +1,10 @@
 package utils;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -74,13 +72,34 @@ public class WebDriverUtils {
 
     /**
      * @param url - of web application
-     *        Opens the web application and wait for the page to fully load
+     *            Opens the web application and wait for the page to fully load
      */
     public static void openWebPage(String url) {
         getDriver().get(url);
         waitForPageLoad();
     }
 
+    /**
+     * @param locator Wait for locator and click
+     */
+    public static void click(By locator) {
+        waitForElement(locator).click();
+    }
+
+    /**
+     * @param locator Wait for Element to be visible
+     */
+    public static WebElement waitForElement(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(20));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+
+    /**
+     * Capture current browser screen and return bytes
+     *
+     * @return byte array
+     */
     public static byte[] getFailureScreenShot() {
         return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
     }

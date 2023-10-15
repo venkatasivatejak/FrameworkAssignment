@@ -36,14 +36,15 @@ public class CoreProductsPage {
      */
     public void navigateToNewsAndFeatures() {
         Actions mouseAction = new Actions(WebDriverUtils.getDriver());
-        WebElement additional_menu_header_ele = WebDriverUtils.getDriver().findElement(additional_menu_header);
+        WebElement additional_menu_header_ele = WebDriverUtils.waitForElement(additional_menu_header);
         mouseAction.moveToElement(additional_menu_header_ele).build().perform();
-        WebDriverUtils.getDriver().findElement(news_features_menu_item).click();
+        WebDriverUtils.click(news_features_menu_item);
         WebDriverUtils.waitForPageLoad();
     }
 
     /**
-     * @param text Extracts  the number value from string
+     * @param text
+     * Extracts  the number value from string
      * @return Integer Value String
      */
 
@@ -63,6 +64,7 @@ public class CoreProductsPage {
 
     /**
      * Returns the count of all videos posted before days
+     *
      * @param days - Number days
      * @return count of video feeds
      */
